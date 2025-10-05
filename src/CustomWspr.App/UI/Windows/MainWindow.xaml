@@ -1,0 +1,82 @@
+<Window
+    x:Class="CustomWspr.App.UI.Windows.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid Padding="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock 
+            Grid.Row="0"
+            Text="Custom WSPR - Configuration"
+            Style="{StaticResource TitleTextBlockStyle}"
+            Margin="0,0,0,24"/>
+
+        <TabView Grid.Row="1" TabWidthMode="Equal">
+            <TabViewItem Header="General">
+                <StackPanel Spacing="16" Padding="16">
+                    <TextBlock Text="General Settings" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="UI Language" Style="{StaticResource BodyTextBlockStyle}"/>
+                        <ComboBox Width="200" HorizontalAlignment="Left">
+                            <ComboBoxItem Content="English (en-US)" IsSelected="True"/>
+                            <ComboBoxItem Content="Español (es-ES)"/>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Hotkeys" Style="{StaticResource BodyTextBlockStyle}"/>
+                        <Grid ColumnSpacing="12" RowSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="200"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Overlay Toggle:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" Text="Ctrl+Shift+M" IsReadOnly="True"/>
+                            
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Command Palette:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="Alt+Space" IsReadOnly="True"/>
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+            </TabViewItem>
+
+            <TabViewItem Header="Audio">
+                <StackPanel Spacing="16" Padding="16">
+                    <TextBlock Text="Audio Settings" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <TextBlock Text="(Audio configuration will be available in Phase 02)" 
+                               Style="{StaticResource CaptionTextBlockStyle}"
+                               Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"/>
+                </StackPanel>
+            </TabViewItem>
+
+            <TabViewItem Header="Models">
+                <StackPanel Spacing="16" Padding="16">
+                    <TextBlock Text="ASR Models" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <TextBlock Text="(Model management will be available in Phase 03)" 
+                               Style="{StaticResource CaptionTextBlockStyle}"
+                               Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"/>
+                </StackPanel>
+            </TabViewItem>
+
+            <TabViewItem Header="About">
+                <StackPanel Spacing="16" Padding="16">
+                    <TextBlock Text="Custom WSPR" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <TextBlock Text="Version 0.1.0-alpha (Phase 01)" Style="{StaticResource BodyTextBlockStyle}"/>
+                    <TextBlock Text="A local-first speech recognition app for Windows 11" 
+                               Style="{StaticResource CaptionTextBlockStyle}"
+                               Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"/>
+                </StackPanel>
+            </TabViewItem>
+        </TabView>
+    </Grid>
+</Window>

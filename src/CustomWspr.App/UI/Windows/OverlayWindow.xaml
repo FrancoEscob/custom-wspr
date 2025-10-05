@@ -1,0 +1,187 @@
+<Window
+    x:Class="CustomWspr.App.UI.Windows.OverlayWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:viewmodels="using:CustomWspr.App.UI.ViewModels"
+    xmlns:converters="using:CustomWspr.App.UI.Converters">
+
+    <Window.SystemBackdrop>
+        <MicaBackdrop Kind="BaseAlt"/>
+    </Window.SystemBackdrop>
+
+    <Border 
+        x:Name="RootBorder"
+        Background="{ThemeResource OverlayBackgroundBrush}"
+        BorderBrush="{ThemeResource AccentBorderBrush}"
+        BorderThickness="1"
+        CornerRadius="12"
+        Padding="16"
+        RequestedTheme="Dark">
+
+        <Border.KeyboardAccelerators>
+            <KeyboardAccelerator Key="Escape" Invoked="OnEscapeAcceleratorInvoked"/>
+            <KeyboardAccelerator Key="R" Invoked="OnRecordAcceleratorInvoked"/>
+        </Border.KeyboardAccelerators>
+
+        <Grid>
+            <Grid.Resources>
+                <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            </Grid.Resources>
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+        <!-- Header with State and Language Selector -->
+        <Grid Grid.Row="0" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12">
+                <Border 
+                    Width="12" 
+                    Height="12" 
+                    CornerRadius="6"
+                    VerticalAlignment="Center"
+                    Background="{ThemeResource StateIndicatorBrush}"/>
+                <TextBlock 
+                    Text="{x:Bind ViewModel.StateText, Mode=OneWay}"
+                    Style="{StaticResource BodyStrongTextBlockStyle}"
+                    VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <ComboBox 
+                Grid.Column="1"
+                SelectedIndex="0"
+                Width="120"
+                AutomationProperties.Name="Language Selector">
+                <ComboBoxItem Content="English"/>
+                <ComboBoxItem Content="Español"/>
+            </ComboBox>
+        </Grid>
+
+        <!-- Waveform Placeholder -->
+        <Border 
+            Grid.Row="1"
+            Height="80"
+            Background="{ThemeResource WaveformBackgroundBrush}"
+            CornerRadius="8"
+            Margin="0,0,0,16">
+            <Grid>
+                <TextBlock 
+                    Text="🎵 Waveform Visualization"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"/>
+            </Grid>
+        </Border>
+
+        <!-- Central Content Area -->
+        <Grid Grid.Row="2">
+            <!-- Idle State -->
+            <StackPanel 
+                Visibility="{x:Bind ViewModel.IsIdleMessageVisible, Mode=OneWay}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="12">
+                <TextBlock 
+                    Text="Ready to Record"
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    HorizontalAlignment="Center"/>
+                <TextBlock 
+                    Text="Press R or click button below to start"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                    HorizontalAlignment="Center"/>
+            </StackPanel>
+
+            <!-- Recording State -->
+            <StackPanel 
+                Visibility="{x:Bind ViewModel.IsRecordingControlsVisible, Mode=OneWay}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="16">
+                <TextBlock 
+                    Text="{x:Bind ViewModel.ElapsedTime, Mode=OneWay}"
+                    Style="{StaticResource DisplayTextBlockStyle}"
+                    HorizontalAlignment="Center"
+                    FontSize="48"
+                    FontWeight="SemiBold"/>
+                
+                <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
+                    <Button 
+                        Style="{StaticResource AccentButtonStyle}"
+                        Command="{x:Bind ViewModel.PauseRecordingCommand}"
+                        Width="100"
+                        AutomationProperties.Name="Pause Recording">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE769;" FontSize="16"/>
+                            <TextBlock Text="Pause"/>
+                        </StackPanel>
+                    </Button>
+                    <Button 
+                        Style="{StaticResource PrimaryButtonStyle}"
+                        Command="{x:Bind ViewModel.StopRecordingCommand}"
+                        Width="100"
+                        AutomationProperties.Name="Stop Recording">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE71A;" FontSize="16"/>
+                            <TextBlock Text="Stop"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+        <!-- Bottom Control Bar -->
+        <Grid Grid.Row="3" Margin="0,16,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button 
+                Grid.Column="0"
+                Style="{StaticResource RecordButtonStyle}"
+                Command="{x:Bind ViewModel.ToggleRecordingCommand}"
+                HorizontalAlignment="Left"
+                Width="120"
+                Height="40"
+                AutomationProperties.Name="Toggle Recording">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <FontIcon Glyph="&#xE7C8;" FontSize="20"/>
+                    <TextBlock Text="Record (R)" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <StackPanel 
+                Grid.Column="1"
+                Orientation="Horizontal" 
+                Spacing="8">
+                <Button 
+                    Content="F2: Lang" 
+                    Style="{StaticResource SubtleButtonStyle}"
+                    ToolTipService.ToolTip="Change Language (F2)"
+                    AutomationProperties.Name="Change Language"/>
+                <Button 
+                    Content="F4: VAD" 
+                    Style="{StaticResource SubtleButtonStyle}"
+                    ToolTipService.ToolTip="Toggle VAD (F4)"
+                    AutomationProperties.Name="Toggle VAD"/>
+                <Button 
+                    Content="Esc" 
+                    Style="{StaticResource SubtleButtonStyle}"
+                    Click="OnCloseClick"
+                    ToolTipService.ToolTip="Close (Esc)"
+                    AutomationProperties.Name="Close Overlay"/>
+            </StackPanel>
+        </Grid>
+        </Grid>
+    </Border>
+</Window>

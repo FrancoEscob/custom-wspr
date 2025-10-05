@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "CustomWspr.App": {
+      "commandName": "Project"
+    }
+  }
+}

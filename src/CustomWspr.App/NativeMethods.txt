@@ -1,0 +1,10 @@
+RegisterHotKey
+UnregisterHotKey
+Shell_NotifyIcon
+LoadIcon
+CreatePopupMenu
+AppendMenu
+GetCursorPos
+SetForegroundWindow
+TrackPopupMenu
+DestroyMenu
